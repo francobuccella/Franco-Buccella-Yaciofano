@@ -112,7 +112,7 @@ export const BACKING = {
         { value: "1872", label: "Fundación del grupo Zurich" },
         { value: "170+", label: "Países con presencia" },
         { value: "+55.000", label: "Empleados en el mundo" },
-        { value: "16,0%", label: "Participación de mercado en vida (Zurich+ZS, SSN dic. 2024)" },
+        { value: "42%", label: "Participación de mercado en vida (Zurich+ZS, SSN dic. 2024)" },
       ],
     },
   ],
