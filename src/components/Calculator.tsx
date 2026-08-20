@@ -21,7 +21,7 @@ function futureValueForContribution(contribution: number, years: number, annualR
 }
 
 export default function Calculator() {
-  const [mode, setMode] = useState<Mode>("goal");
+  const [mode, setMode] = useState<Mode>("contribution");
 
   const [goal, setGoal] = useState(CALCULATOR.goalMode.goalDefault);
   const [goalYears, setGoalYears] = useState(CALCULATOR.goalMode.yearsDefault);
@@ -54,17 +54,6 @@ export default function Calculator() {
             <button
               role="tab"
               type="button"
-              aria-selected={mode === "goal"}
-              onClick={() => setMode("goal")}
-              className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
-                mode === "goal" ? "bg-navy-deep text-cream" : "text-ink-soft"
-              }`}
-            >
-              {CALCULATOR.goalMode.tabLabel}
-            </button>
-            <button
-              role="tab"
-              type="button"
               aria-selected={mode === "contribution"}
               onClick={() => setMode("contribution")}
               className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
@@ -72,6 +61,17 @@ export default function Calculator() {
               }`}
             >
               {CALCULATOR.contributionMode.tabLabel}
+            </button>
+            <button
+              role="tab"
+              type="button"
+              aria-selected={mode === "goal"}
+              onClick={() => setMode("goal")}
+              className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                mode === "goal" ? "bg-navy-deep text-cream" : "text-ink-soft"
+              }`}
+            >
+              {CALCULATOR.goalMode.tabLabel}
             </button>
           </div>
 
