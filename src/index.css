@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Paleta tomada del sitio original (Lovable) — cambiala acá si querés otros colores */
+  --color-cream: oklch(95.2% 0.022 85);
+  --color-paper: oklch(97.2% 0.014 88);
+  --color-navy-deep: oklch(21.5% 0.045 252);
+  --color-navy: oklch(23.5% 0.052 252);
+  --color-navy-soft: oklch(32% 0.052 250);
+  --color-gold: oklch(66% 0.105 75);
+  --color-gold-soft: oklch(83% 0.085 85);
+  --color-ink: oklch(27% 0.012 60);
+  --color-ink-soft: oklch(46% 0.012 70);
+  --color-line: oklch(86% 0.035 85);
+  --color-line-soft: oklch(92% 0.025 85);
+
+  --radius-card: 0.85rem;
+  --shadow-card: 0 10px 28px -18px oklch(21.5% 0.045 252 / 0.3);
+  --shadow-stamp: 0 14px 30px -16px oklch(21.5% 0.045 252 / 0.45);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Slider (range input) estilizado en navy/gold para las calculadoras */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-line);
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--color-navy-deep);
+  border: 3px solid var(--color-gold);
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--color-navy-deep);
+  border: 3px solid var(--color-gold);
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+}
