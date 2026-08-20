@@ -149,7 +149,7 @@ export default function Calculator() {
             </p>
             <p className="mt-1 text-4xl font-bold text-gold-soft">{formatUSD(result)}</p>
             <p className="mt-2 text-xs text-cream/60">
-              Rendimiento {CALCULATOR.annualRate * 100}% anual fijo · en USD
+              Rendimiento {Math.round(CALCULATOR.annualRate * 1000) / 10}% anual fijo · en USD
             </p>
           </div>
 

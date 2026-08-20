@@ -125,8 +125,8 @@ export const CALCULATOR = {
   eyebrow: "Simulá tu plan",
   title: "¿Cuánto podés lograr?",
   description:
-    "Dos calculadoras para que veas en números lo que es posible. Rendimiento del 6% anual fijo en dólares.",
-  annualRate: 0.06,
+    "Dos calculadoras para que veas en números lo que es posible. Rendimiento del 7% anual fijo en dólares.",
+  annualRate: 0.07,
   goalMode: {
     tabLabel: "Tengo una meta",
     goalMin: 10000,
