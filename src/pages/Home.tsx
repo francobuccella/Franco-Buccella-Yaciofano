@@ -4,6 +4,7 @@ import ForWho from "../components/ForWho";
 import Solutions from "../components/Solutions";
 import Backing from "../components/Backing";
 import Calculator from "../components/Calculator";
+import RetirementTeaser from "../components/RetirementTeaser";
 import Contact from "../components/Contact";
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
       <Solutions />
       <Backing />
       <Calculator />
+      <RetirementTeaser />
       <Contact />
     </>
   );

@@ -122,6 +122,15 @@ export const BACKING = {
   footnote: "Más de 50 años de trayectoria en el país · Calificación AAA (FixScr, afiliada local de Fitch)",
 };
 
+export const RETIREMENT_TEASER = {
+  eyebrow: "Planificación previsional",
+  title: "¿Con cuánto te vas a jubilar?",
+  description:
+    "Esta calculadora rápida te da una idea. Pero la jubilación depende de tu edad, de lo que te dé ANSES y de tu horizonte real de ahorro. Armamos una calculadora completa, paso a paso, para que lo veas en detalle.",
+  ctaLabel: "Calcular mi jubilación →",
+  ctaHref: "/calculadora-jubilacion",
+};
+
 export const CALCULATOR = {
   eyebrow: "Simulá tu plan",
   title: "¿Cuánto podés lograr?",
