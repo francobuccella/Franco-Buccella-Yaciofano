@@ -1,6 +1,32 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import logo from "../assets/fby-logo.png";
 import { NAV_LINKS, SITE } from "../content";
+
+function NavLink({
+  href,
+  className,
+  onClick,
+  children,
+}: {
+  href: string;
+  className: string;
+  onClick?: () => void;
+  children: React.ReactNode;
+}) {
+  if (href.includes("#")) {
+    return (
+      <a href={href} onClick={onClick} className={className}>
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link to={href} onClick={onClick} className={className}>
+      {children}
+    </Link>
+  );
+}
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -11,19 +37,19 @@ export default function Navbar() {
         aria-label="Navegación principal"
         className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3"
       >
-        <a href="#top" aria-label={`${SITE.name} — Inicio`} className="flex items-center gap-2">
+        <a href="/#top" aria-label={`${SITE.name} — Inicio`} className="flex items-center gap-2">
           <img src={logo} alt={SITE.name} className="h-9 w-auto" />
         </a>
 
         <ul className="hidden items-center gap-8 md:flex">
           {NAV_LINKS.map((link) => (
             <li key={link.href}>
-              <a
+              <NavLink
                 href={link.href}
                 className="text-sm font-medium text-ink-soft transition-colors hover:text-navy-deep"
               >
                 {link.label}
-              </a>
+              </NavLink>
             </li>
           ))}
         </ul>
@@ -45,13 +71,13 @@ export default function Navbar() {
         <ul className="flex flex-col gap-1 border-t border-line-soft bg-cream px-6 py-4 md:hidden">
           {NAV_LINKS.map((link) => (
             <li key={link.href}>
-              <a
+              <NavLink
                 href={link.href}
                 onClick={() => setOpen(false)}
                 className="block py-2 text-sm font-medium text-ink-soft hover:text-navy-deep"
               >
                 {link.label}
-              </a>
+              </NavLink>
             </li>
           ))}
         </ul>

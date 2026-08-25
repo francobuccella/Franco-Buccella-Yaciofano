@@ -12,12 +12,13 @@ export const SITE = {
 };
 
 export const NAV_LINKS = [
-  { label: "Sobre mí", href: "#sobre-mi" },
-  { label: "Para quién", href: "#para-quien" },
-  { label: "Soluciones", href: "#soluciones" },
-  { label: "Respaldo", href: "#respaldo" },
-  { label: "Calculadoras", href: "#calculadoras" },
-  { label: "Hablemos", href: "#contacto" },
+  { label: "Sobre mí", href: "/#sobre-mi" },
+  { label: "Para quién", href: "/#para-quien" },
+  { label: "Soluciones", href: "/#soluciones" },
+  { label: "Respaldo", href: "/#respaldo" },
+  { label: "Calculadoras", href: "/#calculadoras" },
+  { label: "Jubilación", href: "/calculadora-jubilacion" },
+  { label: "Hablemos", href: "/#contacto" },
 ];
 
 export const HERO = {
