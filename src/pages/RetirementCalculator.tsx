@@ -17,11 +17,7 @@ function presentValueOfAnnuity(monthlyAmount: number, months: number, r: number)
   return (monthlyAmount * (1 - Math.pow(1 + r, -months))) / r;
 }
 
-const TOTAL_STEPS = 5;
-
 export default function RetirementCalculator() {
-  const [step, setStep] = useState(0);
-
   const [currentAge, setCurrentAge] = useState(age.currentAgeDefault);
   const [retirementAge, setRetirementAge] = useState(age.retirementAgeDefault);
   const [lifeExpectancy, setLifeExpectancy] = useState(age.lifeExpectancyDefault);
@@ -92,285 +88,210 @@ export default function RetirementCalculator() {
     if (lifeExpectancy <= value) setLifeExpectancy(value + 1);
   }
 
-  function restart() {
-    setStep(0);
-    setCurrentAge(age.currentAgeDefault);
-    setRetirementAge(age.retirementAgeDefault);
-    setLifeExpectancy(age.lifeExpectancyDefault);
-    setDesiredIncome(goal.incomeDefault);
-    setCurrentSavings(goal.savingsDefault);
-    setAnsesIncome(anses.default);
-    setCapitalToPreserve(legacy.default);
-    setProfileKey(profile.defaultKey);
-  }
-
-  const isResultStep = step === TOTAL_STEPS;
-
   return (
     <section className="mx-auto max-w-3xl px-6 py-16">
       <Link to="/" className="text-sm font-semibold text-navy-deep hover:text-gold">
         {RETIREMENT_CALCULATOR.backLabel}
       </Link>
 
-      {step === 0 && (
-        <div className="mt-6 text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-gold">
-            {RETIREMENT_CALCULATOR.eyebrow}
-          </p>
-          <h1 className="text-3xl font-bold text-navy-deep sm:text-4xl">
-            {RETIREMENT_CALCULATOR.title}
-          </h1>
-          <p className="mt-4 text-ink-soft">{RETIREMENT_CALCULATOR.description}</p>
-        </div>
-      )}
+      <div className="mt-6 text-center">
+        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-gold">
+          {RETIREMENT_CALCULATOR.eyebrow}
+        </p>
+        <h1 className="text-3xl font-bold text-navy-deep sm:text-4xl">
+          {RETIREMENT_CALCULATOR.title}
+        </h1>
+        <p className="mt-4 text-ink-soft">{RETIREMENT_CALCULATOR.description}</p>
+      </div>
 
-      {!isResultStep && (
-        <div className="mt-8">
-          <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wide text-ink-soft">
-            <span>
-              {RETIREMENT_CALCULATOR.stepCounterLabel} {step + 1} de {TOTAL_STEPS}
-            </span>
-          </div>
-          <div className="mt-2 h-1.5 w-full rounded-full bg-line-soft">
-            <div
-              className="h-1.5 rounded-full bg-gold transition-all"
-              style={{ width: `${((step + 1) / TOTAL_STEPS) * 100}%` }}
+      <div className="mt-10 space-y-6">
+        <div className="rounded-card border border-line bg-cream p-6 text-left shadow-card sm:p-8">
+          <h2 className="text-xl font-bold text-navy-deep">{age.stepTitle}</h2>
+          <p className="mt-1 text-sm text-ink-soft">{age.stepDescription}</p>
+
+          <div className="mt-6 space-y-6">
+            <SliderField
+              label={age.currentAgeLabel}
+              value={currentAge}
+              min={age.currentAgeMin}
+              max={age.currentAgeMax}
+              unit=" años"
+              onChange={handleCurrentAgeChange}
+            />
+            <SliderField
+              label={age.retirementAgeLabel}
+              value={retirementAge}
+              min={currentAge + 1}
+              max={age.retirementAgeMax}
+              unit=" años"
+              onChange={handleRetirementAgeChange}
+              caption={`Tenés ${yearsToRetire} años para ahorrar.`}
+            />
+            <SliderField
+              label={age.lifeExpectancyLabel}
+              value={lifeExpectancy}
+              min={retirementAge + 1}
+              max={age.lifeExpectancyMax}
+              unit=" años"
+              onChange={setLifeExpectancy}
+              caption={`Tus ahorros tienen que durar ${yearsInRetirement} años de retiro.`}
             />
           </div>
         </div>
-      )}
 
-      <div className="mt-8 rounded-card border border-line bg-cream p-6 text-left shadow-card sm:p-8">
-        {step === 0 && (
-          <div>
-            <h2 className="text-xl font-bold text-navy-deep">{age.stepTitle}</h2>
-            <p className="mt-1 text-sm text-ink-soft">{age.stepDescription}</p>
+        <div className="rounded-card border border-line bg-cream p-6 text-left shadow-card sm:p-8">
+          <h2 className="text-xl font-bold text-navy-deep">{goal.stepTitle}</h2>
+          <p className="mt-1 text-sm text-ink-soft">{goal.stepDescription}</p>
 
-            <div className="mt-6 space-y-6">
-              <SliderField
-                label={age.currentAgeLabel}
-                value={currentAge}
-                min={age.currentAgeMin}
-                max={age.currentAgeMax}
-                unit=" años"
-                onChange={handleCurrentAgeChange}
-              />
-              <SliderField
-                label={age.retirementAgeLabel}
-                value={retirementAge}
-                min={currentAge + 1}
-                max={age.retirementAgeMax}
-                unit=" años"
-                onChange={handleRetirementAgeChange}
-                caption={`Tenés ${yearsToRetire} años para ahorrar.`}
-              />
-              <SliderField
-                label={age.lifeExpectancyLabel}
-                value={lifeExpectancy}
-                min={retirementAge + 1}
-                max={age.lifeExpectancyMax}
-                unit=" años"
-                onChange={setLifeExpectancy}
-                caption={`Tus ahorros tienen que durar ${yearsInRetirement} años de retiro.`}
-              />
-            </div>
+          <div className="mt-6 space-y-6">
+            <SliderField
+              label={goal.incomeLabel}
+              value={desiredIncome}
+              min={goal.incomeMin}
+              max={goal.incomeMax}
+              step={goal.incomeStep}
+              format={formatUSD}
+              onChange={setDesiredIncome}
+              caption={goal.incomeCaption}
+            />
+            <SliderField
+              label={goal.savingsLabel}
+              value={currentSavings}
+              min={goal.savingsMin}
+              max={goal.savingsMax}
+              step={goal.savingsStep}
+              format={formatUSD}
+              onChange={setCurrentSavings}
+              caption={goal.savingsCaption}
+            />
           </div>
-        )}
+        </div>
 
-        {step === 1 && (
-          <div>
-            <h2 className="text-xl font-bold text-navy-deep">{goal.stepTitle}</h2>
-            <p className="mt-1 text-sm text-ink-soft">{goal.stepDescription}</p>
+        <div className="rounded-card border border-line bg-cream p-6 text-left shadow-card sm:p-8">
+          <h2 className="text-xl font-bold text-navy-deep">{anses.stepTitle}</h2>
+          <p className="mt-1 text-sm text-ink-soft">{anses.stepDescription}</p>
 
-            <div className="mt-6 space-y-6">
-              <SliderField
-                label={goal.incomeLabel}
-                value={desiredIncome}
-                min={goal.incomeMin}
-                max={goal.incomeMax}
-                step={goal.incomeStep}
-                format={formatUSD}
-                onChange={setDesiredIncome}
-                caption={goal.incomeCaption}
-              />
-              <SliderField
-                label={goal.savingsLabel}
-                value={currentSavings}
-                min={goal.savingsMin}
-                max={goal.savingsMax}
-                step={goal.savingsStep}
-                format={formatUSD}
-                onChange={setCurrentSavings}
-                caption={goal.savingsCaption}
-              />
-            </div>
-          </div>
-        )}
+          <div className="mt-6 space-y-4">
+            <SliderField
+              label={anses.label}
+              value={ansesIncome}
+              min={anses.min}
+              max={anses.max}
+              step={anses.step}
+              format={formatUSD}
+              onChange={setAnsesIncome}
+            />
 
-        {step === 2 && (
-          <div>
-            <h2 className="text-xl font-bold text-navy-deep">{anses.stepTitle}</h2>
-            <p className="mt-1 text-sm text-ink-soft">{anses.stepDescription}</p>
-
-            <div className="mt-6 space-y-4">
-              <SliderField
-                label={anses.label}
-                value={ansesIncome}
-                min={anses.min}
-                max={anses.max}
-                step={anses.step}
-                format={formatUSD}
-                onChange={setAnsesIncome}
-              />
-
-              <div className="rounded-card bg-line-soft p-4 text-sm text-ink">
-                <p>
-                  ANSES cubre ~{Math.round(ansesCoveragePct)}% de tu objetivo. Faltante:{" "}
-                  <strong>{formatUSD(monthlyGap)}/mes</strong>
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {step === 3 && (
-          <div>
-            <h2 className="text-xl font-bold text-navy-deep">{legacy.stepTitle}</h2>
-            <p className="mt-1 text-sm text-ink-soft">{legacy.stepDescription}</p>
-
-            <div className="mt-6">
-              <SliderField
-                label={legacy.label}
-                value={capitalToPreserve}
-                min={legacy.min}
-                max={legacy.max}
-                step={legacy.step}
-                format={formatUSD}
-                onChange={setCapitalToPreserve}
-              />
-            </div>
-          </div>
-        )}
-
-        {step === 4 && (
-          <div>
-            <h2 className="text-xl font-bold text-navy-deep">{profile.stepTitle}</h2>
-            <p className="mt-1 text-sm text-ink-soft">{profile.stepDescription}</p>
-
-            <div className="mt-6 grid gap-3 sm:grid-cols-3">
-              {profile.options.map((opt) => (
-                <button
-                  key={opt.key}
-                  type="button"
-                  onClick={() => setProfileKey(opt.key)}
-                  className={`rounded-card border p-4 text-left transition-colors ${
-                    profileKey === opt.key
-                      ? "border-gold bg-navy-deep text-cream"
-                      : "border-line bg-paper text-ink"
-                  }`}
-                >
-                  <p className="font-bold">{opt.label}</p>
-                  <p
-                    className={`text-sm ${profileKey === opt.key ? "text-gold-soft" : "text-ink-soft"}`}
-                  >
-                    {opt.caption}
-                  </p>
-                </button>
-              ))}
-            </div>
-
-            <p className="mt-4 text-xs text-ink-soft">{profile.disclaimer}</p>
-          </div>
-        )}
-
-        {isResultStep && (
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-navy-deep">{resultContent.title}</h2>
-
-            <div className="mt-6 rounded-card bg-navy-deep px-6 py-6 text-cream">
-              <p className="text-sm text-cream/70">{resultContent.monthlyContributionLabel}</p>
-              {calc.alreadyCovered ? (
-                <p className="mt-2 text-lg font-semibold text-gold-soft">
-                  {resultContent.alreadyCoveredMessage}
-                </p>
-              ) : (
-                <p className="mt-1 text-4xl font-bold text-gold-soft">
-                  {formatUSD(calc.monthlyContribution)}
-                </p>
-              )}
-              <p className="mt-2 text-xs text-cream/60">
-                durante {yearsToRetire} años · perfil {selectedProfile.label} (
-                {Math.round(selectedProfile.rate * 100)}% anual)
+            <div className="rounded-card bg-line-soft p-4 text-sm text-ink">
+              <p>
+                ANSES cubre ~{Math.round(ansesCoveragePct)}% de tu objetivo. Faltante:{" "}
+                <strong>{formatUSD(monthlyGap)}/mes</strong>
               </p>
             </div>
+          </div>
+        </div>
 
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-card border border-line bg-paper p-4">
-                <p className="text-xs uppercase tracking-wide text-ink-soft">
-                  {resultContent.capitalLabel}
-                </p>
-                <p className="mt-1 text-xl font-bold text-navy-deep">
-                  {formatUSD(calc.capitalAtRetirement)}
-                </p>
-                <p className="text-xs text-ink-soft">a los {retirementAge} años</p>
-              </div>
-              <div className="rounded-card border border-line bg-paper p-4">
-                <p className="text-xs uppercase tracking-wide text-ink-soft">
-                  {resultContent.incomeBreakdownLabel}
-                </p>
-                <p className="mt-1 text-xl font-bold text-navy-deep">{formatUSD(desiredIncome)}</p>
-                <p className="text-xs text-ink-soft">
-                  ANSES {formatUSD(ansesIncome)} + privado {formatUSD(monthlyGap)}
-                </p>
-              </div>
-            </div>
+        <div className="rounded-card border border-line bg-cream p-6 text-left shadow-card sm:p-8">
+          <h2 className="text-xl font-bold text-navy-deep">{legacy.stepTitle}</h2>
+          <p className="mt-1 text-sm text-ink-soft">{legacy.stepDescription}</p>
 
-            <div className="mt-8 text-left">
-              <p className="mb-3 text-center text-sm font-semibold text-navy-deep">
-                {resultContent.chartTitle}
-              </p>
-              <RetirementChart points={calc.chartPoints} />
-            </div>
+          <div className="mt-6">
+            <SliderField
+              label={legacy.label}
+              value={capitalToPreserve}
+              min={legacy.min}
+              max={legacy.max}
+              step={legacy.step}
+              format={formatUSD}
+              onChange={setCapitalToPreserve}
+            />
+          </div>
+        </div>
 
-            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <a
-                href="/#contacto"
-                className="rounded-card bg-gold px-7 py-3 text-sm font-semibold text-navy-deep shadow-stamp transition-transform hover:-translate-y-0.5"
-              >
-                {resultContent.ctaLabel}
-              </a>
+        <div className="rounded-card border border-line bg-cream p-6 text-left shadow-card sm:p-8">
+          <h2 className="text-xl font-bold text-navy-deep">{profile.stepTitle}</h2>
+          <p className="mt-1 text-sm text-ink-soft">{profile.stepDescription}</p>
+
+          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            {profile.options.map((opt) => (
               <button
+                key={opt.key}
                 type="button"
-                onClick={restart}
-                className="rounded-card border border-line px-7 py-3 text-sm font-semibold text-ink-soft transition-colors hover:bg-line-soft"
+                onClick={() => setProfileKey(opt.key)}
+                className={`rounded-card border p-4 text-left transition-colors ${
+                  profileKey === opt.key
+                    ? "border-gold bg-navy-deep text-cream"
+                    : "border-line bg-paper text-ink"
+                }`}
               >
-                {resultContent.restartLabel}
+                <p className="font-bold">{opt.label}</p>
+                <p className={`text-sm ${profileKey === opt.key ? "text-gold-soft" : "text-ink-soft"}`}>
+                  {opt.caption}
+                </p>
               </button>
+            ))}
+          </div>
+
+          <p className="mt-4 text-xs text-ink-soft">{profile.disclaimer}</p>
+        </div>
+
+        <div className="rounded-card border border-line bg-cream p-6 text-center shadow-card sm:p-8">
+          <h2 className="text-2xl font-bold text-navy-deep">{resultContent.title}</h2>
+
+          <div className="mt-6 rounded-card bg-navy-deep px-6 py-6 text-cream">
+            <p className="text-sm text-cream/70">{resultContent.monthlyContributionLabel}</p>
+            {calc.alreadyCovered ? (
+              <p className="mt-2 text-lg font-semibold text-gold-soft">
+                {resultContent.alreadyCoveredMessage}
+              </p>
+            ) : (
+              <p className="mt-1 text-4xl font-bold text-gold-soft">
+                {formatUSD(calc.monthlyContribution)}
+              </p>
+            )}
+            <p className="mt-2 text-xs text-cream/60">
+              durante {yearsToRetire} años · perfil {selectedProfile.label} (
+              {Math.round(selectedProfile.rate * 100)}% anual)
+            </p>
+          </div>
+
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-card border border-line bg-paper p-4">
+              <p className="text-xs uppercase tracking-wide text-ink-soft">
+                {resultContent.capitalLabel}
+              </p>
+              <p className="mt-1 text-xl font-bold text-navy-deep">
+                {formatUSD(calc.capitalAtRetirement)}
+              </p>
+              <p className="text-xs text-ink-soft">a los {retirementAge} años</p>
+            </div>
+            <div className="rounded-card border border-line bg-paper p-4">
+              <p className="text-xs uppercase tracking-wide text-ink-soft">
+                {resultContent.incomeBreakdownLabel}
+              </p>
+              <p className="mt-1 text-xl font-bold text-navy-deep">{formatUSD(desiredIncome)}</p>
+              <p className="text-xs text-ink-soft">
+                ANSES {formatUSD(ansesIncome)} + privado {formatUSD(monthlyGap)}
+              </p>
             </div>
           </div>
-        )}
 
-        {!isResultStep && (
-          <div className="mt-8 flex items-center justify-between">
-            <button
-              type="button"
-              onClick={() => setStep((s) => Math.max(0, s - 1))}
-              disabled={step === 0}
-              className="rounded-card border border-line px-6 py-2.5 text-sm font-semibold text-ink-soft transition-colors hover:bg-line-soft disabled:opacity-0"
-            >
-              {RETIREMENT_CALCULATOR.backButtonLabel}
-            </button>
-            <button
-              type="button"
-              onClick={() => setStep((s) => Math.min(TOTAL_STEPS, s + 1))}
-              className="rounded-card bg-navy-deep px-6 py-2.5 text-sm font-semibold text-cream transition-transform hover:-translate-y-0.5"
-            >
-              {step === TOTAL_STEPS - 1
-                ? RETIREMENT_CALCULATOR.seeResultButtonLabel
-                : RETIREMENT_CALCULATOR.nextButtonLabel}
-            </button>
+          <div className="mt-8 text-left">
+            <p className="mb-3 text-center text-sm font-semibold text-navy-deep">
+              {resultContent.chartTitle}
+            </p>
+            <RetirementChart points={calc.chartPoints} />
           </div>
-        )}
+
+          <div className="mt-8 flex justify-center">
+            <a
+              href="/#contacto"
+              className="rounded-card bg-gold px-7 py-3 text-sm font-semibold text-navy-deep shadow-stamp transition-transform hover:-translate-y-0.5"
+            >
+              {resultContent.ctaLabel}
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   );

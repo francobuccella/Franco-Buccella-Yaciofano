@@ -87,13 +87,7 @@ export const RETIREMENT_CALCULATOR = {
     incomeBreakdownLabel: "Ingreso mensual total",
     chartTitle: "Evolución del capital mientras ahorrás",
     ctaLabel: "Quiero armar mi plan",
-    restartLabel: "Volver a empezar",
   },
-
-  stepCounterLabel: "Paso",
-  backButtonLabel: "Atrás",
-  nextButtonLabel: "Siguiente",
-  seeResultButtonLabel: "Ver resultado",
 };
 
 export type InvestmentProfileKey = (typeof RETIREMENT_CALCULATOR.profile.options)[number]["key"];
