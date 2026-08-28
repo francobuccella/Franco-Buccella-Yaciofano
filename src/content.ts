@@ -18,6 +18,7 @@ export const NAV_LINKS = [
   { label: "Respaldo", href: "/#respaldo" },
   { label: "Calculadoras", href: "/#calculadoras" },
   { label: "Jubilación", href: "/calculadora-jubilacion" },
+  { label: "Empresas", href: "https://francobuccella-empresas.netlify.app" },
   { label: "Hablemos", href: "/#contacto" },
 ];
 

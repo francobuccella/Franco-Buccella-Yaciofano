@@ -14,6 +14,13 @@ function NavLink({
   onClick?: () => void;
   children: React.ReactNode;
 }) {
+  if (href.startsWith("http")) {
+    return (
+      <a href={href} target="_blank" rel="noreferrer" onClick={onClick} className={className}>
+        {children}
+      </a>
+    );
+  }
   if (href.includes("#")) {
     return (
       <a href={href} onClick={onClick} className={className}>
