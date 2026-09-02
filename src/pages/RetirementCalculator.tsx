@@ -264,6 +264,7 @@ export default function RetirementCalculator() {
                 {formatUSD(calc.capitalAtRetirement)}
               </p>
               <p className="text-xs text-ink-soft">a los {retirementAge} años</p>
+              <p className="mt-2 text-xs text-ink-soft">{resultContent.capitalNote}</p>
             </div>
             <div className="rounded-card border border-line bg-paper p-4">
               <p className="text-xs uppercase tracking-wide text-ink-soft">

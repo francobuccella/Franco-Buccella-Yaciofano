@@ -84,6 +84,8 @@ export const RETIREMENT_CALCULATOR = {
     monthlyContributionLabel: "Tenés que ahorrar por mes",
     alreadyCoveredMessage: "Con lo que ya tenés ahorrado, alcanzarías tu objetivo con este perfil.",
     capitalLabel: "Capital al retiro",
+    capitalNote:
+      "Cuanto más agresivo el perfil, menos capital hace falta: seguís rindiendo mientras retirás, así que te alcanza con menos.",
     incomeBreakdownLabel: "Ingreso mensual total",
     chartTitle: "Evolución del capital mientras ahorrás",
     ctaLabel: "Quiero armar mi plan",
