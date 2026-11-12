@@ -6,7 +6,7 @@ export default function AboutMe() {
     <section id="sobre-mi" className="mx-auto max-w-6xl px-6 py-20">
       <div className="grid gap-12 md:grid-cols-2 md:items-center">
         <div>
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-gold">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-gold-deep">
             {ABOUT.eyebrow}
           </p>
           <h2 className="text-3xl font-bold text-navy-deep sm:text-4xl">{ABOUT.title}</h2>
@@ -33,7 +33,7 @@ export default function AboutMe() {
         <div className="flex flex-col items-center">
           <img
             src={portrait}
-            alt={`Retrato ilustrado de ${SITE.name}`}
+            alt={`${SITE.name}, ${SITE.role.toLowerCase()}`}
             className="w-full max-w-sm rounded-card border border-line shadow-card"
           />
           <div className="mt-6 text-center">

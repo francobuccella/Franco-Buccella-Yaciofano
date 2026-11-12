@@ -4,7 +4,7 @@ export default function Solutions() {
   return (
     <section id="soluciones" className="mx-auto max-w-6xl px-6 py-20">
       <div className="mx-auto max-w-3xl text-center">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-gold">
+        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-gold-deep">
           {SOLUTIONS.eyebrow}
         </p>
         <h2 className="text-3xl font-bold text-navy-deep sm:text-4xl">{SOLUTIONS.title}</h2>
@@ -16,7 +16,7 @@ export default function Solutions() {
             key={item.tag}
             className="flex flex-col rounded-card border border-line bg-paper p-6 shadow-card"
           >
-            <span className="text-xs font-bold uppercase tracking-[0.15em] text-gold">
+            <span className="text-xs font-bold uppercase tracking-[0.15em] text-gold-deep">
               {item.tag}
             </span>
             <h3 className="mt-2 text-xl font-bold text-navy-deep">{item.title}</h3>
@@ -35,7 +35,7 @@ export default function Solutions() {
 
             <a
               href="#contacto"
-              className="mt-6 text-sm font-semibold text-navy-deep hover:text-gold"
+              className="mt-6 text-sm font-semibold text-navy-deep hover:text-gold-deep"
             >
               {SOLUTIONS.cta}
             </a>

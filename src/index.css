@@ -11,6 +11,8 @@
   --color-navy-soft: oklch(32% 0.052 250);
   --color-gold: oklch(66% 0.105 75);
   --color-gold-soft: oklch(83% 0.085 85);
+  /* Dorado oscuro para textos chicos sobre fondo claro (contraste 4,9:1; el dorado normal da 2,7:1) */
+  --color-gold-deep: oklch(52% 0.105 72);
   --color-ink: oklch(27% 0.012 60);
   --color-ink-soft: oklch(46% 0.012 70);
   --color-line: oklch(86% 0.035 85);

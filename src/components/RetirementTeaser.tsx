@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { RETIREMENT_TEASER } from "../content";
+import { trackEvent } from "../lib/analytics";
 
 export default function RetirementTeaser() {
   return (
@@ -13,6 +14,7 @@ export default function RetirementTeaser() {
 
         <Link
           to={RETIREMENT_TEASER.ctaHref}
+          onClick={() => trackEvent("cta_click", { location: "retirement_teaser" })}
           className="mt-8 inline-block rounded-card bg-gold px-7 py-3 text-sm font-semibold text-navy-deep shadow-stamp transition-transform hover:-translate-y-0.5"
         >
           {RETIREMENT_TEASER.ctaLabel}

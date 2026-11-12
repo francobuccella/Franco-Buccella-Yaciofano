@@ -1,11 +1,13 @@
 import { useState, type FormEvent } from "react";
 import { CONTACT, SITE } from "../content";
+import { trackEvent } from "../lib/analytics";
+import { whatsappUrl } from "../lib/whatsapp";
 
 type Status = "idle" | "sending" | "success" | "error";
 
 export default function Contact() {
   const [status, setStatus] = useState<Status>("idle");
-  const whatsappHref = `https://api.whatsapp.com/send?phone=${SITE.whatsappNumber}`;
+  const whatsappHref = whatsappUrl();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -22,12 +24,15 @@ export default function Contact() {
       });
 
       if (res.ok) {
+        trackEvent("form_submit", { interest: String(data.get("interes") ?? "") });
         setStatus("success");
         form.reset();
       } else {
+        trackEvent("form_error");
         setStatus("error");
       }
     } catch {
+      trackEvent("form_error");
       setStatus("error");
     }
   }
@@ -126,7 +131,8 @@ export default function Contact() {
           href={whatsappHref}
           target="_blank"
           rel="noreferrer"
-          className="block text-center text-sm font-semibold text-navy-deep hover:text-gold"
+          onClick={() => trackEvent("whatsapp_click", { location: "contact_form" })}
+          className="block text-center text-sm font-semibold text-navy-deep hover:text-gold-deep"
         >
           {CONTACT.whatsappLabel}
         </a>
@@ -136,7 +142,13 @@ export default function Contact() {
 
       <p className="mt-8 text-center text-sm text-ink-soft">
         {CONTACT.directLabel}{" "}
-        <a href={whatsappHref} target="_blank" rel="noreferrer" className="font-semibold text-navy-deep hover:text-gold">
+        <a
+          href={whatsappHref}
+          target="_blank"
+          rel="noreferrer"
+          onClick={() => trackEvent("whatsapp_click", { location: "contact_direct" })}
+          className="font-semibold text-navy-deep hover:text-gold-deep"
+        >
           {SITE.whatsappDisplay}
         </a>
       </p>

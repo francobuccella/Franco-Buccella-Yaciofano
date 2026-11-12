@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { CALCULATOR } from "../content";
+import { trackEvent } from "../lib/analytics";
 
 type Mode = "goal" | "contribution";
 
@@ -43,7 +44,7 @@ export default function Calculator() {
   return (
     <section id="calculadoras" className="bg-paper py-20">
       <div className="mx-auto max-w-3xl px-6 text-center">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-gold">
+        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-gold-deep">
           {CALCULATOR.eyebrow}
         </p>
         <h2 className="text-3xl font-bold text-navy-deep sm:text-4xl">{CALCULATOR.title}</h2>
@@ -160,6 +161,7 @@ export default function Calculator() {
           <div className="mt-6 text-center">
             <a
               href={CALCULATOR.cta.href}
+              onClick={() => trackEvent("cta_click", { location: "calculator" })}
               className="inline-block rounded-card bg-gold px-7 py-3 text-sm font-semibold text-navy-deep shadow-stamp transition-transform hover:-translate-y-0.5"
             >
               {CALCULATOR.cta.label}

@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import RetirementChart from "../components/RetirementChart";
+import { trackEvent } from "../lib/analytics";
 import { RETIREMENT_CALCULATOR, type InvestmentProfileKey } from "../retirementCalculatorContent";
 
 const { age, goal, anses, legacy, profile, result: resultContent } = RETIREMENT_CALCULATOR;
@@ -90,12 +91,12 @@ export default function RetirementCalculator() {
 
   return (
     <section className="mx-auto max-w-3xl px-6 py-16">
-      <Link to="/" className="text-sm font-semibold text-navy-deep hover:text-gold">
+      <Link to="/" className="text-sm font-semibold text-navy-deep hover:text-gold-deep">
         {RETIREMENT_CALCULATOR.backLabel}
       </Link>
 
       <div className="mt-6 text-center">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-gold">
+        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-gold-deep">
           {RETIREMENT_CALCULATOR.eyebrow}
         </p>
         <h1 className="text-3xl font-bold text-navy-deep sm:text-4xl">
@@ -287,6 +288,7 @@ export default function RetirementCalculator() {
           <div className="mt-8 flex justify-center">
             <a
               href="/#contacto"
+              onClick={() => trackEvent("cta_click", { location: "retirement_result" })}
               className="rounded-card bg-gold px-7 py-3 text-sm font-semibold text-navy-deep shadow-stamp transition-transform hover:-translate-y-0.5"
             >
               {resultContent.ctaLabel}

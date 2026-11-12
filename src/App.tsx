@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import FloatingWhatsApp from "./components/FloatingWhatsApp";
 import Home from "./pages/Home";
 import RetirementCalculator from "./pages/RetirementCalculator";
 
@@ -13,6 +14,7 @@ export default function App() {
         <Route path="/calculadora-jubilacion" element={<RetirementCalculator />} />
       </Routes>
       <Footer />
+      <FloatingWhatsApp />
     </div>
   );
 }

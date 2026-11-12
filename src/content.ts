@@ -8,7 +8,19 @@ export const SITE = {
   role: "Asesor en Planificación Financiera Personal",
   whatsappNumber: "5492616905231", // solo dígitos, con código de país
   whatsappDisplay: "+54 9 261 690-5231",
+  // Mensaje que aparece escrito de antemano cuando alguien toca un botón de WhatsApp del sitio
+  whatsappMessage: "Hola Franco, vi tu página web y me gustaría charlar sobre mi plan financiero.",
   location: "Atiendo en toda Argentina · Con base en Mendoza",
+};
+
+/**
+ * Medición del sitio. Mientras los dos campos estén vacíos no se carga nada.
+ * - ga4Id: ID de medición de Google Analytics 4 (ej: "G-XXXXXXXXXX")
+ * - plausibleDomain: dominio registrado en Plausible (ej: "francobuccellayaciofano.netlify.app")
+ */
+export const ANALYTICS = {
+  ga4Id: "",
+  plausibleDomain: "",
 };
 
 export const NAV_LINKS = [
@@ -19,22 +31,24 @@ export const NAV_LINKS = [
   { label: "Calculadoras", href: "/#calculadoras" },
   { label: "Jubilación", href: "/calculadora-jubilacion" },
   { label: "Empresas", href: "https://francobuccella-empresas.netlify.app" },
-  { label: "Hablemos", href: "/#contacto" },
 ];
 
+export const NAV_CTA_LABEL = "Hablemos";
+
 export const HERO = {
-  eyebrow: "Asesoramiento en Planificación Financiera",
-  title: SITE.name,
-  subtitle: "Un plan para tus proyectos, pensado con vos — sin presión y sin letra chica.",
-  ctaPrimary: { label: "Quiero charlar sin compromiso", href: "#contacto" },
-  ctaSecondary: { label: "Ver soluciones ↓", href: "#soluciones" },
-  stamps: [
-    { title: "Financial Benefit", value: "1996", caption: "Inicio de actividades" },
-    { title: "+2.500", value: "", caption: "Clientes acompañados" },
-    { title: "+20", value: "", caption: "Asesores independientes" },
-    { title: "Zurich Life", value: "1872", caption: "Fundación del grupo" },
-    { title: "170+", value: "", caption: "Países con presencia" },
-    { title: "AAA", value: "", caption: "Calificación FixScr" },
+  eyebrow: "Planificación financiera personal",
+  title: "Ahorrá en dólares y protegé a tu familia, con un plan a tu medida.",
+  subtitle:
+    "Soy Franco Buccella Yaciofano, asesor en Financial Benefit. Armamos juntos un plan para tus proyectos — sin presión y sin letra chica.",
+  photoAlt: "Franco Buccella Yaciofano, asesor en planificación financiera",
+  ctaPrimary: { label: "Charlemos por WhatsApp" },
+  ctaSecondary: { label: "Prefiero dejar mis datos", href: "#contacto" },
+  // Franja de respaldo: números de la consultora y de la aseguradora (no personales)
+  proof: [
+    { value: "Desde 1996", label: "Financial Benefit, la consultora donde trabajo" },
+    { value: "+2.500", label: "clientes acompañados en Financial Benefit" },
+    { value: "Desde 1872", label: "Zurich Life, en más de 170 países" },
+    { value: "AAA", label: "calificación local (FixScr)" },
   ],
 };
 
