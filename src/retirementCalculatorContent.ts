@@ -76,7 +76,7 @@ export const RETIREMENT_CALCULATOR = {
     ] as const,
     defaultKey: "moderado" as const,
     disclaimer:
-      "Estos son escenarios de rendimiento para que veas el impacto en tu plan. En la charla con Franco vemos qué productos Zurich se ajustan a tu objetivo real.",
+      "Estos son escenarios de rendimiento supuestos para que veas el impacto en tu plan; la rentabilidad real no está garantizada. En la charla con Franco vemos qué productos Zurich se ajustan a tu objetivo real.",
   },
 
   result: {
@@ -89,6 +89,12 @@ export const RETIREMENT_CALCULATOR = {
     incomeBreakdownLabel: "Ingreso mensual total",
     chartTitle: "Evolución del capital mientras ahorrás",
     ctaLabel: "Quiero armar mi plan",
+    ctaWhatsappLabel: "Enviarlo por WhatsApp",
+    messageCovered:
+      "Hola Franco, simulé mi jubilación y con lo que ya tengo ahorrado alcanzaría mi objetivo. Quiero revisar mi plan con vos.",
+    // {edad}, {retiro}, {ingreso}, {aporte}, {perfil} y {tasa} se reemplazan con los valores simulados.
+    message:
+      "Hola Franco, simulé mi jubilación: tengo {edad} años, me quiero retirar a los {retiro} y cobrar USD {ingreso} por mes. Con el perfil {perfil} (rendimiento supuesto de {tasa}% anual, sin garantía) tendría que ahorrar unos USD {aporte} por mes. Quiero ver cómo armarlo.",
   },
 };
 

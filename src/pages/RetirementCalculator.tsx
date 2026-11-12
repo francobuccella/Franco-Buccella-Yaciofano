@@ -1,7 +1,11 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import RetirementChart from "../components/RetirementChart";
+import WhatsAppIcon from "../components/WhatsAppIcon";
 import { trackEvent } from "../lib/analytics";
+import { setPrefill } from "../lib/prefill";
+import { fillTemplate, formatNumber } from "../lib/template";
+import { whatsappUrl } from "../lib/whatsapp";
 import { RETIREMENT_CALCULATOR, type InvestmentProfileKey } from "../retirementCalculatorContent";
 
 const { age, goal, anses, legacy, profile, result: resultContent } = RETIREMENT_CALCULATOR;
@@ -78,6 +82,18 @@ export default function RetirementCalculator() {
     capitalToPreserve,
     currentSavings,
   ]);
+
+  // Resumen de la simulación: viaja al formulario y al WhatsApp para que no se pierda.
+  const message = calc.alreadyCovered
+    ? resultContent.messageCovered
+    : fillTemplate(resultContent.message, {
+        edad: currentAge,
+        retiro: retirementAge,
+        ingreso: formatNumber(desiredIncome),
+        aporte: formatNumber(calc.monthlyContribution),
+        perfil: selectedProfile.label.toLowerCase(),
+        tasa: Math.round(selectedProfile.rate * 100),
+      });
 
   function handleCurrentAgeChange(value: number) {
     setCurrentAge(value);
@@ -285,13 +301,26 @@ export default function RetirementCalculator() {
             <RetirementChart points={calc.chartPoints} />
           </div>
 
-          <div className="mt-8 flex justify-center">
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
               href="/#contacto"
-              onClick={() => trackEvent("cta_click", { location: "retirement_result" })}
+              onClick={() => {
+                setPrefill({ interest: "Ahorro", message });
+                trackEvent("cta_click", { location: "retirement_result" });
+              }}
               className="rounded-card bg-gold px-7 py-3 text-sm font-semibold text-navy-deep shadow-stamp transition-transform hover:-translate-y-0.5"
             >
               {resultContent.ctaLabel}
+            </a>
+            <a
+              href={whatsappUrl(message)}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => trackEvent("whatsapp_click", { location: "retirement_result" })}
+              className="inline-flex items-center gap-2 rounded-card border border-line px-6 py-3 text-sm font-semibold text-navy-deep transition-colors hover:bg-line-soft"
+            >
+              <WhatsAppIcon className="h-4 w-4" />
+              {resultContent.ctaWhatsappLabel}
             </a>
           </div>
         </div>

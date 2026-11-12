@@ -1,11 +1,15 @@
 import { useMemo, useState } from "react";
 import { CALCULATOR } from "../content";
 import { trackEvent } from "../lib/analytics";
+import { setPrefill } from "../lib/prefill";
+import { fillTemplate, formatNumber } from "../lib/template";
+import { whatsappUrl } from "../lib/whatsapp";
+import WhatsAppIcon from "./WhatsAppIcon";
 
 type Mode = "goal" | "contribution";
 
-const formatUSD = (value: number) =>
-  `$ ${Math.round(value).toLocaleString("es-AR")}`;
+const formatUSD = (value: number) => `USD ${formatNumber(value)}`;
+const rateLabel = Math.round(CALCULATOR.annualRate * 1000) / 10;
 
 /** Cuota mensual necesaria para llegar a `goal` en `years`, a tasa anual `annualRate`. */
 function monthlyContributionForGoal(goal: number, years: number, annualRate: number) {
@@ -40,6 +44,22 @@ export default function Calculator() {
     }
     return futureValueForContribution(contribution, contributionYears, CALCULATOR.annualRate);
   }, [mode, goal, goalYears, contribution, contributionYears]);
+
+  // Resumen de lo que el prospecto simuló: viaja al formulario y al WhatsApp para que no se pierda.
+  const message =
+    mode === "goal"
+      ? fillTemplate(CALCULATOR.messages.goal, {
+          meta: formatNumber(goal),
+          anios: goalYears,
+          tasa: rateLabel,
+          resultado: formatNumber(result),
+        })
+      : fillTemplate(CALCULATOR.messages.contribution, {
+          aporte: formatNumber(contribution),
+          anios: contributionYears,
+          tasa: rateLabel,
+          resultado: formatNumber(result),
+        });
 
   return (
     <section id="calculadoras" className="bg-paper py-20">
@@ -149,22 +169,33 @@ export default function Calculator() {
                 : CALCULATOR.contributionMode.resultLabel}
             </p>
             <p className="mt-1 text-4xl font-bold text-gold-soft">{formatUSD(result)}</p>
-            <p className="mt-2 text-xs text-cream/60">
-              Rendimiento {Math.round(CALCULATOR.annualRate * 1000) / 10}% anual fijo · en USD
+            <p className="mt-2 text-xs text-cream/70">
+              Rendimiento supuesto de {rateLabel}% anual · en USD
             </p>
           </div>
 
-          <p className="mt-4 text-center text-xs text-ink-soft">
-            Calculado con capitalización mensual compuesta.
-          </p>
+          <p className="mt-4 text-center text-xs text-ink-soft">{CALCULATOR.disclaimer}</p>
 
-          <div className="mt-6 text-center">
+          <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
               href={CALCULATOR.cta.href}
-              onClick={() => trackEvent("cta_click", { location: "calculator" })}
+              onClick={() => {
+                setPrefill({ interest: "Ahorro", message });
+                trackEvent("cta_click", { location: "calculator" });
+              }}
               className="inline-block rounded-card bg-gold px-7 py-3 text-sm font-semibold text-navy-deep shadow-stamp transition-transform hover:-translate-y-0.5"
             >
               {CALCULATOR.cta.label}
+            </a>
+            <a
+              href={whatsappUrl(message)}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => trackEvent("whatsapp_click", { location: "calculator" })}
+              className="inline-flex items-center gap-2 rounded-card border border-line px-6 py-3 text-sm font-semibold text-navy-deep transition-colors hover:bg-line-soft"
+            >
+              <WhatsAppIcon className="h-4 w-4" />
+              {CALCULATOR.ctaWhatsappLabel}
             </a>
           </div>
         </div>

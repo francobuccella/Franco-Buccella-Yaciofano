@@ -1,13 +1,39 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { CONTACT, SITE } from "../content";
 import { trackEvent } from "../lib/analytics";
+import { clearPrefill, PREFILL_EVENT, readPrefill } from "../lib/prefill";
 import { whatsappUrl } from "../lib/whatsapp";
 
 type Status = "idle" | "sending" | "success" | "error";
 
 export default function Contact() {
   const [status, setStatus] = useState<Status>("idle");
+  const [interest, setInterest] = useState(
+    () => readPrefill().interest ?? CONTACT.interestOptions[0],
+  );
+  const [message, setMessage] = useState(() => readPrefill().message ?? "");
+  // Último mensaje que se completó solo (no el que escribió la persona), para poder reemplazarlo sin pisar lo que tipeó.
+  const autoMessage = useRef<string | null>(readPrefill().message ?? null);
   const whatsappHref = whatsappUrl();
+
+  // Si un botón de otra sección (Soluciones, calculadoras) deja datos listos, se completan acá.
+  useEffect(() => {
+    const apply = () => {
+      const prefill = readPrefill();
+      if (prefill.interest) setInterest(prefill.interest);
+      if (prefill.message !== undefined) {
+        autoMessage.current = prefill.message;
+        setMessage(prefill.message);
+      } else {
+        // Un botón sin mensaje propio: se borra el mensaje automático anterior, salvo que la persona lo haya editado.
+        const previous = autoMessage.current;
+        autoMessage.current = null;
+        setMessage((current) => (current === previous ? "" : current));
+      }
+    };
+    window.addEventListener(PREFILL_EVENT, apply);
+    return () => window.removeEventListener(PREFILL_EVENT, apply);
+  }, []);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -27,6 +53,10 @@ export default function Contact() {
         trackEvent("form_submit", { interest: String(data.get("interes") ?? "") });
         setStatus("success");
         form.reset();
+        setInterest(CONTACT.interestOptions[0]);
+        setMessage("");
+        autoMessage.current = null;
+        clearPrefill();
       } else {
         trackEvent("form_error");
         setStatus("error");
@@ -83,6 +113,8 @@ export default function Contact() {
           <select
             id="interes"
             name="interes"
+            value={interest}
+            onChange={(e) => setInterest(e.target.value)}
             className="mt-2 w-full rounded-card border border-line bg-cream px-4 py-3 text-ink outline-none focus:border-gold"
           >
             {CONTACT.interestOptions.map((opt) => (
@@ -101,6 +133,8 @@ export default function Contact() {
             id="mensaje"
             name="mensaje"
             rows={4}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
             placeholder="Tu situación, tus proyectos, lo que te preocupa hoy..."
             className="mt-2 w-full rounded-card border border-line bg-cream px-4 py-3 text-ink outline-none focus:border-gold"
           />
